@@ -20,7 +20,7 @@ Dataset files are stored in:
 data/raw/
 
 ## Project Structure
-
+'''
 house-price-prediction-ml
 ├── data
 │   ├── raw
@@ -30,7 +30,7 @@ house-price-prediction-ml
 ├── models
 ├── app
 ├── README.md
-
+'''
 ## Planned Workflow
 
 1. Exploratory Data Analysis (EDA)
