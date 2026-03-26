@@ -27,26 +27,23 @@ def handle_missing_values(df):
         if col in df.columns:
             df[col] = df[col].fillna("None")
 
-    # Numerical columns where NaN means feature does not exist
+    # Numerical columns where NaN means feature not present
     zero_fill_cols = [
-        "GarageYrBlt",
-        "MasVnrArea",
-        "BsmtFinSF1",
-        "BsmtFinSF2",
-        "BsmtUnfSF",
-        "TotalBsmtSF",
-        "BsmtFullBath",
-        "BsmtHalfBath",
-        "GarageCars",
-        "GarageArea"
+        "GarageYrBlt", "MasVnrArea", "BsmtFinSF1", "BsmtFinSF2",
+        "BsmtUnfSF", "TotalBsmtSF", "BsmtFullBath", "BsmtHalfBath",
+        "GarageCars", "GarageArea"
     ]
     for col in zero_fill_cols:
         if col in df.columns:
             df[col] = df[col].fillna(0)
 
-    # LotFrontage → real missing numeric value
+    # LotFrontage special case
     if "LotFrontage" in df.columns:
         df["LotFrontage"] = df["LotFrontage"].fillna(df["LotFrontage"].median())
+
+    # Safety check: replace any remaining categorical NaN with "None"
+    cat_cols = df.select_dtypes(include=["object","string"]).columns
+    df[cat_cols] = df[cat_cols].fillna("None")
 
     return df
 
