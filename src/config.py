@@ -11,6 +11,7 @@ TRAIN_DATA_PATH = RAW_DATA_DIR / "train.csv"
 TEST_DATA_PATH = RAW_DATA_DIR / "test.csv"
 
 PROCESSED_TRAIN_PATH = PROCESSED_DATA_DIR / "train_processed.csv"
+FEATURES_TRAIN_PATH = PROCESSED_DATA_DIR / "train_features.csv"
 
 # Models path
 MODEL_DIR = BASE_DIR / "models"
