@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import root_mean_squared_error
 
 from config import FEATURES_TRAIN_PATH, MODEL_PATH
@@ -16,44 +16,53 @@ def load_data():
     return df
 
 def split_data(df):
-    y = np.log1p(df["SalePrice"])
+    Y = np.log1p(df["SalePrice"])
     X = df.drop("SalePrice", axis=1)
     
+    X_train, X_val, Y_train, Y_val = train_test_split(X, Y, test_size=0.2, random_state=42)
+    return X_train, X_val, Y_train, Y_val
 
-    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
-    return X_train, X_val, y_train, y_val
+def build_pipeline(X_train):
 
-def encode_data(X_train, X_val):
-    X_train = pd.get_dummies(X_train)
-    X_val = pd.get_dummies(X_val)
-    # align columns so both datasets match
-    X_train, X_val = X_train.align(X_val, join="left", axis=1, fill_value=0)
-    print("Train shape after encoding:", X_train.shape)
-    print("Validation shape after encoding:", X_val.shape)
-    return X_train, X_val
+    categorical_cols = X_train.select_dtypes(include=["object","string"]).columns
+    numerical_cols = X_train.select_dtypes(exclude=["object","string"]).columns
 
-def train_model(X_train, y_train, X_val, y_val):
-    model = LinearRegression()
-    model.fit(X_train, y_train)
-    predictions_log = model.predict(X_val)
-    rmse = root_mean_squared_error(y_val, predictions_log)
+    preprocessor = ColumnTransformer(
+        transformers=[("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
+            ("num", "passthrough", numerical_cols)
+        ]
+    )
+
+    model = RandomForestRegressor(n_estimators=200, random_state=42, n_jobs=-1)
+
+    pipeline = Pipeline(steps=[("preprocessor", preprocessor), ("model", model)])
+    return pipeline
+
+def train_model(pipeline, X_train, Y_train):
+    pipeline.fit(X_train, Y_train)
+    return pipeline
+
+def evaluate_model(pipeline, X_val, Y_val):
+    predictions_log = pipeline.predict(X_val)
+    predictions = np.expm1(predictions_log)
+    Y_val_real = np.expm1(Y_val)
+
+    rmse = root_mean_squared_error(Y_val_real, predictions)
     print("Validation RMSE:", rmse)
-    return model
 
-def save_model(model):
+def save_model(pipeline):
     MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
-    joblib.dump(model, MODEL_PATH)
+    joblib.dump(pipeline, MODEL_PATH)
 
 def main():
     df = load_data()
-    X_train, X_val, y_train, y_val = split_data(df)
-    X_train, X_val = encode_data(X_train, X_val)
-    model = train_model(X_train, y_train, X_val, y_val)
-    save_model(model)
+    X_train, X_val, Y_train, Y_val = split_data(df)
+    pipeline = build_pipeline(X_train)
+    pipeline = train_model(pipeline, X_train, Y_train)
+    evaluate_model(pipeline, X_val, Y_val)
+    save_model(pipeline)
     print("Model training completed successfully")
     print(df.shape)
-    print("SalePrice min:", df["SalePrice"].min())
-    print("SalePrice max:", df["SalePrice"].max())
-
+    
 if __name__ == "__main__":
     main()
