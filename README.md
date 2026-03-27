@@ -21,6 +21,10 @@ The goal is to estimate the **sale price of a house based on property features**
 
 ---
 
+## App Preview
+
+![App Screenshot](images/app_preview.png)
+
 # 📊 Project Overview
 
 House price prediction is a classic **regression problem in machine learning**.
