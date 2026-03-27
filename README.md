@@ -21,6 +21,12 @@ The goal is to estimate the **sale price of a house based on property features**
 
 ---
 
+## 🚀 Live Demo
+
+Try the deployed application here:
+
+https://your-streamlit-app-link
+
 ## 📷 App Preview
 
 ![App Screenshot](images/app_preview.png)
