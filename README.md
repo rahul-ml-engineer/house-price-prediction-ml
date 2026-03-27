@@ -21,7 +21,7 @@ The goal is to estimate the **sale price of a house based on property features**
 
 ---
 
-## App Preview
+## 📷 App Preview
 
 ![App Screenshot](images/app_preview.png)
 
@@ -77,7 +77,7 @@ Model performance was compared using **Root Mean Squared Error (RMSE)**.
 
 ---
 
-## Model Performance
+## 📈 Model Performance
 
 The models were evaluated using **5-fold cross-validation** and **Root Mean Squared Error (RMSE)**.
 
@@ -121,8 +121,10 @@ Follow these steps to run the project locally.
 
 ## 1️⃣ Clone the repository
 
+Repository:
 https://github.com/rahul-ml-engineer/house-price-prediction-ml
 
+Clone Command:
 git clone https://github.com/rahul-ml-engineer/house-price-prediction-ml.git
 
 cd house-price-prediction-ml
