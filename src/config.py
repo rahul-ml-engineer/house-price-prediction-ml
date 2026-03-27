@@ -16,3 +16,5 @@ FEATURES_TRAIN_PATH = PROCESSED_DATA_DIR / "train_features.csv"
 # Models path
 MODEL_DIR = BASE_DIR / "models"
 MODEL_PATH = MODEL_DIR / "house_price_model.pkl"
+
+MODEL_COMPARISON_RESULTS_PATH = MODEL_DIR / "model_comparison_results.csv"

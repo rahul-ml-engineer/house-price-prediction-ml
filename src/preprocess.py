@@ -12,6 +12,9 @@ def basic_cleaning(df):
     # drop Id column
     if "Id" in df.columns:
         df.drop("Id", axis=1, inplace=True)
+     # remove extreme outliers
+    if "GrLivArea" in df.columns and "SalePrice" in df.columns:
+        df = df[~((df["GrLivArea"] > 4000) & (df["SalePrice"] < 300000))]
     return df
 
 def handle_missing_values(df):
