@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split, KFold
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 
 from sklearn.linear_model import LinearRegression
@@ -29,7 +30,7 @@ def build_preprocessor(X_train):
 
     preprocessor = ColumnTransformer(transformers=[
             ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_cols),
-            ("num", "passthrough", numerical_cols)
+            ("num", StandardScaler(), numerical_cols)
         ]
     )
     return preprocessor

@@ -1,4 +1,4 @@
 Model,CV Mean RMSE,CV Std RMSE,Test RMSE,Best
-LinearRegression,21140.62,1786.69,20971.96,✓
-GradientBoosting,23536.63,2732.24,19285.01,
-RandomForest,26953.38,2308.61,23629.18,
+LinearRegression,22317.72,1719.38,21765.55,✓
+GradientBoosting,23535.25,2737.58,19279.9,
+RandomForest,26940.14,2320.03,23658.3,

@@ -18,3 +18,6 @@ MODEL_DIR = BASE_DIR / "models"
 MODEL_PATH = MODEL_DIR / "house_price_model.pkl"
 
 MODEL_COMPARISON_RESULTS_PATH = MODEL_DIR / "model_comparison_results.csv"
+
+# Predictions path
+PREDICTIONS_PATH = BASE_DIR / "predictions" / "predictions.csv"
