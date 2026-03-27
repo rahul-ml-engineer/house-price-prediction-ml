@@ -77,6 +77,21 @@ Model performance was compared using **Root Mean Squared Error (RMSE)**.
 
 ---
 
+## Model Performance
+
+The models were evaluated using **5-fold cross-validation** and **Root Mean Squared Error (RMSE)**.
+
+| Model             | RMSE    |
+| ----------------- | ------- |
+| Linear Regression | ~21,000 |
+| Gradient Boosting | ~23,500 |
+| Random Forest     | ~26,900 |
+
+**Final Model Selected:** Linear Regression
+
+The final model was chosen based on the lowest cross-validation error.
+
+
 # 📈 Features Used
 
 The model uses several important house characteristics such as:
