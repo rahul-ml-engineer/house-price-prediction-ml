@@ -102,7 +102,9 @@ Follow these steps to run the project locally.
 
 ## 1️⃣ Clone the repository
 
-git clone https://github.com/<your-github-username>/house-price-prediction-ml.git
+https://github.com/rahul-ml-engineer/house-price-prediction-ml
+
+git clone https://github.com/rahul-ml-engineer/house-price-prediction-ml.git
 cd house-price-prediction-ml
 
 ## 2️⃣ Create a virtual environment
