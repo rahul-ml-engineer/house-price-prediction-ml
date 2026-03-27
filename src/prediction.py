@@ -33,7 +33,7 @@ def main():
     test_df = load_test_data()
     ids = test_df["Id"]
     test_df = preprocess_data(test_df)
-    predictions = make_predictions(model, test_df, ids)
+    predictions = make_predictions(model, test_df,ids)
     save_predictions(predictions)
     print("Predictions saved successfully")
 

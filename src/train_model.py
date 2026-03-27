@@ -6,7 +6,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import GradientBoostingRegressor
 
 from config import FEATURES_TRAIN_PATH, MODEL_PATH
 
@@ -24,7 +24,7 @@ def build_pipeline(X_train):
         ]
     )
 
-    model = LinearRegression()
+    model = GradientBoostingRegressor(random_state=42, n_estimators=300, learning_rate=0.05)
 
     pipeline = Pipeline(steps=[("preprocessor", preprocessor), ("model", model)])
     return pipeline

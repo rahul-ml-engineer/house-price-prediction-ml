@@ -73,7 +73,7 @@ The following models were evaluated using **5-fold cross-validation**:
 
 Model performance was compared using **Root Mean Squared Error (RMSE)**.
 
-**Final Model Used:** Linear Regression
+**Final Model Used:** Gradient Boosting Regressor
 
 ---
 
@@ -81,16 +81,21 @@ Model performance was compared using **Root Mean Squared Error (RMSE)**.
 
 The models were evaluated using **5-fold cross-validation** and **Root Mean Squared Error (RMSE)**.
 
-| Model             | RMSE    |
-| ----------------- | ------- |
-| Linear Regression | ~21,000 |
-| Gradient Boosting | ~23,500 |
-| Random Forest     | ~26,900 |
+| Model              | Test RMSE | MAE    | R²   |
+|--------------------|-----------|--------|------|
+| Gradient Boosting  | 19,279    | 13,886 | 0.93 |
+| Linear Regression  | 21,765    | 15,441 | 0.91 |
+| Random Forest      | 23,658    | 16,462 | 0.89 |
 
-**Final Model Selected:** Linear Regression
+**Final Model Selected:** Gradient Boosting Regressor
 
-The final model was chosen based on the lowest cross-validation error.
+The Gradient Boosting model achieved the best performance with the lowest Test RMSE and MAE, and the highest R² score. Therefore, it was selected as the final model.
 
+## 📊 Model Comparison
+
+The models were compared using Test RMSE to determine the best performing algorithm.
+
+![Model Comparison](reports/figures/model_comparison_rmse.png)
 
 # 📈 Features Used
 
@@ -114,6 +119,20 @@ Additional **engineered features** were created to improve performance:
 Feature engineering significantly improved the model’s predictive power.
 
 ---
+
+## 🔎 Feature Importance
+
+Feature importance analysis was performed using the final Gradient Boosting model to understand which features most influence house price predictions.
+
+Key influential features include:
+
+- OverallQual
+- GrLivArea
+- TotalSF
+- GarageCars
+- TotalBsmtSF
+
+![Feature Importance](reports/figures/feature_importance.png)
 
 # ⚡ Quick Start
 
@@ -196,6 +215,11 @@ house-price-prediction-ml
 │
 ├── notebooks
 │   └── eda.ipynb
+|
+├── reports
+│   └── figures
+│       ├── model_comparison_rmse.png
+│       └── feature_importance.png
 │
 ├── src
 │   ├── config.py
@@ -203,6 +227,7 @@ house-price-prediction-ml
 │   ├── feature_engineering.py
 │   ├── model_comparison.py
 │   ├── train_model.py
+│   ├── feature_importance.py
 │   └── predict.py
 │
 ├── requirements.txt

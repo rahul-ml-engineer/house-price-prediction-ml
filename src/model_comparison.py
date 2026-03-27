@@ -9,7 +9,7 @@ from sklearn.pipeline import Pipeline
 
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.metrics import root_mean_squared_error
+from sklearn.metrics import root_mean_squared_error, mean_absolute_error, r2_score
 
 from config import FEATURES_TRAIN_PATH, MODEL_COMPARISON_RESULTS_PATH
 
@@ -60,7 +60,9 @@ def evaluate_test_set(pipeline, X_train, Y_train, X_test, Y_test):
     preds = np.expm1(preds_log)
     y_true = np.expm1(Y_test)
     rmse = root_mean_squared_error(y_true, preds)
-    return rmse
+    mae = mean_absolute_error(y_true, preds)
+    r2 = r2_score(y_true, preds)
+    return rmse, mae, r2
 
 def compare_models(X_train, X_test, Y_train, Y_test):
 
@@ -76,18 +78,21 @@ def compare_models(X_train, X_test, Y_train, Y_test):
         preprocessor = build_preprocessor(X_train)
         pipeline = Pipeline(steps=[("preprocessor", preprocessor), ("model", model)])
         cv_mean, cv_std = cross_validate_model(pipeline, X_train, Y_train)
-        test_rmse = evaluate_test_set(pipeline, X_train, Y_train, X_test, Y_test)
+        test_rmse, mae, r2 = evaluate_test_set(pipeline, X_train, Y_train, X_test, Y_test)
 
-        results.append({"Model": name, "CV Mean RMSE": round(cv_mean, 2), "CV Std RMSE": round(cv_std, 2), "Test RMSE": round(test_rmse, 2)})
+        results.append({"Model": name, "CV Mean RMSE": round(cv_mean, 2),
+                        "CV Std RMSE": round(cv_std, 2), "Test RMSE": round(test_rmse, 2), 
+                        "MAE": mae, "R2": r2})
 
-    results_df = pd.DataFrame(results).sort_values("CV Mean RMSE")
+    results_df = pd.DataFrame(results).sort_values("Test RMSE")
     results_df["Best"] = ""
     results_df.iloc[0, results_df.columns.get_loc("Best")] = "✓"
 
     print("\nModel Comparison Results:\n")
-    print(results_df)
+    print(results_df.to_string(index=False))
 
     MODEL_COMPARISON_RESULTS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    pd.set_option("display.width", None)
     results_df.to_csv(MODEL_COMPARISON_RESULTS_PATH, index=False)
 
 def main():
